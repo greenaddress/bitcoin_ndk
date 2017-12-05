@@ -1,3 +1,5 @@
+Build status: [![Build Status](https://travis-ci.org/greenaddress/bitcoin_ndk.png?branch=master)](https://travis-ci.org/greenaddress/bitcoin_ndk)
+
 This repo is a dependency of greenaddress/abcore however it is usable stand alone.
 
 You can build using docker or using debian stretch.
