@@ -7,7 +7,7 @@ env:
     - DOCKERBUILDER=greenaddress/core_builder_for_android
     - DOCKERHASH=27f35245a645f66436a68cc11a9a592c3febabc4a450a286b02f76389ca5cb70
     - REPO=https://github.com/bitcoin/bitcoin.git
-    - COMMIT=7b57bc998f334775b50ebc8ca5e78ca728db4c58
+    - COMMIT=4b4d7eb255ca8f9a94b92479e6061d129c91a991
     - TOOLCHAIN=aarch64-linux-android-clang
     - TARGETHOST=aarch64-linux-android
   matrix:
@@ -15,9 +15,9 @@ env:
     - TOOLCHAIN=arm-linux-androideabi-clang TARGETHOST=arm-linux-androideabi
     - TOOLCHAIN=x86_64-clang TARGETHOST=x86_64-linux-android
     - TOOLCHAIN=x86-clang TARGETHOST=i686-linux-android
-    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=4c3f4e6fedc7f432accc9db9ffeb4c820d729a4c
-    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=4c3f4e6fedc7f432accc9db9ffeb4c820d729a4c TOOLCHAIN=x86_64-clang TARGETHOST=x86_64-linux-android
-    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=4c3f4e6fedc7f432accc9db9ffeb4c820d729a4c TOOLCHAIN=x86-clang TARGETHOST=i686-linux-android
-    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=4c3f4e6fedc7f432accc9db9ffeb4c820d729a4c TOOLCHAIN=arm-linux-androideabi-clang TARGETHOST=arm-linux-androideabi
+    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=23b1f768a9b4edcecd75ea01800374c9dd1e95c5
+    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=23b1f768a9b4edcecd75ea01800374c9dd1e95c5 TOOLCHAIN=x86_64-clang TARGETHOST=x86_64-linux-android
+    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=23b1f768a9b4edcecd75ea01800374c9dd1e95c5 TOOLCHAIN=x86-clang TARGETHOST=i686-linux-android
+    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=23b1f768a9b4edcecd75ea01800374c9dd1e95c5 TOOLCHAIN=arm-linux-androideabi-clang TARGETHOST=arm-linux-androideabi
 script:
   - docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh $REPO $COMMIT $TOOLCHAIN $TARGETHOST"

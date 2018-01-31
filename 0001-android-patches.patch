@@ -1,18 +1,17 @@
-From add7938f2f8fdf1128bd73b88102fcc0f4bef683 Mon Sep 17 00:00:00 2001
+From 321261b83c670b8660602f740e52d6a03bebc35a Mon Sep 17 00:00:00 2001
 From: Lawrence Nahum <lawrence@greenaddress.it>
-Date: Mon, 4 Dec 2017 11:00:27 +0100
-Subject: [PATCH] android patches
+Date: Wed, 31 Jan 2018 14:27:46 +0100
+Subject: [PATCH] android-patches
 
 ---
  depends/hosts/default.mk      |   4 +-
  depends/hosts/linux.mk        |  24 +-
- depends/packages/libevent.mk  |   4 +-
+ depends/packages/libevent.mk  |   2 +-
  src/Makefile.am               |   2 +-
- src/compat.h                  |   2 +-
  src/ifaddrs.c                 | 600 ++++++++++++++++++++++++++++++++++++++++++
  src/ifaddrs.h                 |  54 ++++
  src/leveldb/util/env_posix.cc |   8 +-
- 8 files changed, 676 insertions(+), 22 deletions(-)
+ 7 files changed, 674 insertions(+), 20 deletions(-)
  create mode 100644 src/ifaddrs.c
  create mode 100644 src/ifaddrs.h
 
@@ -65,10 +64,10 @@ index b13a0f1ad..838db8537 100644
  i686_linux_CC=$(default_host_CC) -m32
  i686_linux_CXX=$(default_host_CXX) -m32
 diff --git a/depends/packages/libevent.mk b/depends/packages/libevent.mk
-index 00231d75d..cdb9bd19e 100644
+index 5f622f8e6..40daeb60f 100644
 --- a/depends/packages/libevent.mk
 +++ b/depends/packages/libevent.mk
-@@ -5,11 +5,11 @@ $(package)_file_name=release-$($(package)_version).tar.gz
+@@ -5,7 +5,7 @@ $(package)_file_name=release-$($(package)_version).tar.gz
  $(package)_sha256_hash=316ddb401745ac5d222d7c529ef1eada12f58f6376a66c1118eee803cb70f83d
  
  define $(package)_preprocess_cmds
@@ -77,16 +76,11 @@ index 00231d75d..cdb9bd19e 100644
  endef
  
  define $(package)_set_vars
--  $(package)_config_opts=--disable-shared --disable-openssl --disable-libevent-regress
-+  $(package)_config_opts=--disable-shared --disable-openssl --disable-libevent-regress --disable-samples
-   $(package)_config_opts_release=--disable-debug-mode
-   $(package)_config_opts_linux=--with-pic
- endef
 diff --git a/src/Makefile.am b/src/Makefile.am
-index f7abab482..daaed3760 100644
+index 4fbd605d9..bd1fa8288 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
-@@ -217,7 +217,7 @@ libbitcoin_server_a_SOURCES = \
+@@ -223,7 +223,7 @@ libbitcoin_server_a_SOURCES = \
    txmempool.cpp \
    ui_interface.cpp \
    validation.cpp \
@@ -95,19 +89,6 @@ index f7abab482..daaed3760 100644
    versionbits.cpp \
    $(BITCOIN_CORE_H)
  
-diff --git a/src/compat.h b/src/compat.h
-index e022659c0..8d6ae7ae6 100644
---- a/src/compat.h
-+++ b/src/compat.h
-@@ -32,7 +32,7 @@
- #include <windows.h>
- #include <ws2tcpip.h>
- #else
--#include <sys/fcntl.h>
-+#include <fcntl.h>
- #include <sys/mman.h>
- #include <sys/select.h>
- #include <sys/socket.h>
 diff --git a/src/ifaddrs.c b/src/ifaddrs.c
 new file mode 100644
 index 000000000..338fff887
@@ -815,5 +796,5 @@ index dd852af35..79f50204f 100644
        s = Status::IOError(filename_, strerror(errno));
      }
 -- 
-2.14.3
+2.11.0
 
