@@ -28,15 +28,19 @@ export LD=$target_host-ld
 export STRIP=$target_host-strip
 export LDFLAGS="-pie -static-libstdc++"
 
+num_jobs=4
+if [ -f /proc/cpuinfo ]; then
+    num_jobs=$(grep ^processor /proc/cpuinfo | wc -l)
+fi
 cd depends
-make HOST=$target_host NO_QT=1
+make HOST=$target_host NO_QT=1 -j $num_jobs
 
 cd ..
 
 ./autogen.sh
 ./configure --prefix=$PWD/depends/$target_host ac_cv_c_bigendian=no --disable-bench --enable-experimental-asm --disable-tests --disable-man --without-utils --without-libs --with-daemon
 
-make -j4
+make -j $num_jobs
 make install
 
 $STRIP depends/$target_host/bin/bitcoind
