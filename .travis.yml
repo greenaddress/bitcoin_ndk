@@ -6,8 +6,8 @@ env:
   global:
     - DOCKERBUILDER=greenaddress/core_builder_for_android
     - DOCKERHASH=2c14fdb2272c9b4bdf4f82020bf369b95f55df448525f85677fdfbc6a6c7c14b
-    - BITCOINTARURL=https://github.com/bitcoin/bitcoin/archive/v0.15.1.tar.gz
-    - SHA256HASH=e429d4f257f2b5b6d0caaf36ed1a5f5203e5918c57837efac00b0c322a1fef79
+    - BITCOINTARURL=https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1.tar.gz
+    - SHA256HASH=34de2dbe058c1f8b6464494468ebe2ff0422614203d292da1c6458d6f87342b4
     - TOOLCHAIN=aarch64-linux-android-clang
     - TARGETHOST=aarch64-linux-android
   matrix:
@@ -15,9 +15,9 @@ env:
     - TOOLCHAIN=arm-linux-androideabi-clang TARGETHOST=arm-linux-androideabi
     - TOOLCHAIN=x86_64-clang TARGETHOST=x86_64-linux-android
     - TOOLCHAIN=x86-clang TARGETHOST=i686-linux-android
-    - BITCOINTARURL=https://github.com/bitcoinknots/bitcoin/archive/v0.15.1.knots20171111.tar.gz SHA256HASH=29038a5fe7b6db48c67949f85f0b43fae55f3f4267863578b1fc526e064d421d
-    - BITCOINTARURL=https://github.com/bitcoinknots/bitcoin/archive/v0.15.1.knots20171111.tar.gz SHA256HASH=29038a5fe7b6db48c67949f85f0b43fae55f3f4267863578b1fc526e064d421d TOOLCHAIN=x86_64-clang TARGETHOST=x86_64-linux-android
-    - BITCOINTARURL=https://github.com/bitcoinknots/bitcoin/archive/v0.15.1.knots20171111.tar.gz SHA256HASH=29038a5fe7b6db48c67949f85f0b43fae55f3f4267863578b1fc526e064d421d TOOLCHAIN=x86-clang TARGETHOST=i686-linux-android
-    - BITCOINTARURL=https://github.com/bitcoinknots/bitcoin/archive/v0.15.1.knots20171111.tar.gz SHA256HASH=29038a5fe7b6db48c67949f85f0b43fae55f3f4267863578b1fc526e064d421d TOOLCHAIN=arm-linux-androideabi-clang TARGETHOST=arm-linux-androideabi
+    - BITCOINTARURL=https://bitcoinknots.org/files/0.15.x/0.15.1.knots20171111/bitcoin-0.15.1.knots20171111.tar.gz SHA256HASH=c77da997393d22da15c9c9ec76ecc64809183b542735e33f6a9bb0a787b1723e
+    - BITCOINTARURL=https://bitcoinknots.org/files/0.15.x/0.15.1.knots20171111/bitcoin-0.15.1.knots20171111.tar.gz SHA256HASH=c77da997393d22da15c9c9ec76ecc64809183b542735e33f6a9bb0a787b1723e TOOLCHAIN=x86_64-clang TARGETHOST=x86_64-linux-android
+    - BITCOINTARURL=https://bitcoinknots.org/files/0.15.x/0.15.1.knots20171111/bitcoin-0.15.1.knots20171111.tar.gz SHA256HASH=c77da997393d22da15c9c9ec76ecc64809183b542735e33f6a9bb0a787b1723e TOOLCHAIN=x86-clang TARGETHOST=i686-linux-android
+    - BITCOINTARURL=https://bitcoinknots.org/files/0.15.x/0.15.1.knots20171111/bitcoin-0.15.1.knots20171111.tar.gz SHA256HASH=c77da997393d22da15c9c9ec76ecc64809183b542735e33f6a9bb0a787b1723e TOOLCHAIN=arm-linux-androideabi-clang TARGETHOST=arm-linux-androideabi
 script:
   - docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh $BITCOINTARURL $SHA256HASH $TOOLCHAIN $TARGETHOST"
