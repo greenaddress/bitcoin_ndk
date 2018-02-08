@@ -7,7 +7,7 @@ sha256_file=0ecc2017802924cf81fffc0f51d342e3e69de6343da892ac9fa1cd79bc106024
 
 apt-get -yqq update &> /dev/null
 apt-get -yqq upgrade &> /dev/null
-apt-get -yqq install python curl build-essential libtool autotools-dev automake pkg-config bsdmainutils git unzip &> /dev/null
+apt-get -yqq install python curl build-essential libtool autotools-dev automake pkg-config bsdmainutils unzip &> /dev/null
 
 mkdir -p /opt
 
@@ -23,7 +23,7 @@ rm ${NDK_FILENAME}
 
 
 if [ -f /.dockerenv ]; then
-    apt-get -yqq autoremove
+    apt-get -yqq --purge autoremove unzip
     apt-get -yqq clean
     rm -rf /var/lib/apt/lists/* /var/cache/* /tmp/* /usr/share/locale/* /usr/share/man /usr/share/doc /lib/xtables/libip6* /opt/${NDK_VERSION}
 fi
