@@ -1,21 +1,14 @@
 #! /bin/bash
 set -e
 
-url=$1
-sha256_file=$2
+repo=$1
+commit=$2
 toolchain=$3
 target_host=$4
 
-tarball="/bitcoin.tar.gz"
-
-mkdir build
-cd build
-curl -sL -o $tarball $url
-echo "${sha256_file}  ${tarball}" | shasum -a 256 --check
-tar xzf $tarball
-rm $tarball
-src_dir=$(ls)
-cd $src_dir
+git clone $repo bitcoin
+cd bitcoin
+git checkout $commit
 patch -p1 < /repo/0001-android-patches.patch
 
 

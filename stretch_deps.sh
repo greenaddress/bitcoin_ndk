@@ -7,7 +7,7 @@ sha256_file=0ecc2017802924cf81fffc0f51d342e3e69de6343da892ac9fa1cd79bc106024
 
 apt-get -yqq update &> /dev/null
 apt-get -yqq upgrade &> /dev/null
-apt-get -yqq install python curl build-essential libtool autotools-dev automake pkg-config bsdmainutils unzip &> /dev/null
+apt-get -yqq install python curl build-essential libtool autotools-dev automake pkg-config bsdmainutils unzip git &> /dev/null
 
 mkdir -p /opt
 
