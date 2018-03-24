@@ -38,4 +38,6 @@ make install
 
 $STRIP depends/$target_host/bin/bitcoind
 
-tar -zcf /${target_host}_${url##*/} -C depends/$target_host/bin bitcoind
+repo_name=$(basename $(dirname ${repo}))
+
+tar -zcf /repo/${target_host}_${repo_name}.tar.gz -C depends/$target_host/bin bitcoind
