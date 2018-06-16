@@ -5,6 +5,7 @@ repo=$1
 commit=$2
 toolchain=$3
 target_host=$4
+bits=$5
 
 git clone $repo bitcoin
 cd bitcoin
@@ -31,7 +32,7 @@ make HOST=$target_host NO_QT=1 -j $num_jobs
 cd ..
 
 ./autogen.sh
-./configure --prefix=$PWD/depends/$target_host ac_cv_c_bigendian=no --disable-bench --enable-experimental-asm --disable-tests --disable-man --without-utils --without-libs --with-daemon
+./configure --prefix=$PWD/depends/$target_host ac_cv_c_bigendian=no ac_cv_sys_file_offset_bits=$bits --disable-bench --enable-experimental-asm --disable-tests --disable-man --without-utils --without-libs --with-daemon
 
 make -j $num_jobs
 make install

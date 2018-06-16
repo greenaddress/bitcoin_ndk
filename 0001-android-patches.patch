@@ -1,25 +1,11 @@
-From 321261b83c670b8660602f740e52d6a03bebc35a Mon Sep 17 00:00:00 2001
-From: Lawrence Nahum <lawrence@greenaddress.it>
-Date: Wed, 31 Jan 2018 14:27:46 +0100
-Subject: [PATCH] android-patches
-
----
- depends/hosts/default.mk      |   4 +-
- depends/hosts/linux.mk        |  24 +-
- depends/packages/libevent.mk  |   2 +-
- src/Makefile.am               |   2 +-
- src/ifaddrs.c                 | 600 ++++++++++++++++++++++++++++++++++++++++++
- src/ifaddrs.h                 |  54 ++++
- src/leveldb/util/env_posix.cc |   8 +-
- 7 files changed, 674 insertions(+), 20 deletions(-)
- create mode 100644 src/ifaddrs.c
- create mode 100644 src/ifaddrs.h
-
 diff --git a/depends/hosts/default.mk b/depends/hosts/default.mk
-index 6f60d6b3f..0397077f0 100644
+index 144e5f88b..4d444df7d 100644
 --- a/depends/hosts/default.mk
 +++ b/depends/hosts/default.mk
-@@ -1,5 +1,5 @@
+@@ -2,8 +2,8 @@ ifneq ($(host),$(build))
+ host_toolchain:=$(host)-
+ endif
+ 
 -default_host_CC = $(host_toolchain)gcc
 -default_host_CXX = $(host_toolchain)g++
 +default_host_CC = $(host_toolchain)clang
@@ -76,6 +62,19 @@ index 5f622f8e6..40daeb60f 100644
  endef
  
  define $(package)_set_vars
+diff --git a/depends/packages/zeromq.mk b/depends/packages/zeromq.mk
+index 3f97221e1..4f257fbe4 100644
+--- a/depends/packages/zeromq.mk
++++ b/depends/packages/zeromq.mk
+@@ -12,7 +12,7 @@ define $(package)_set_vars
+ endef
+ 
+ define $(package)_preprocess_cmds
+-   patch -p1 < $($(package)_patch_dir)/0001-fix-build-with-older-mingw64.patch && \
++   patch -p1 < $($(package)_patch_dir)/0001-fix-build-with-older-mingw64.patch && patch -p1 < /repo/0001-zmq_android.patch && \
+   ./autogen.sh
+ endef
+ 
 diff --git a/src/Makefile.am b/src/Makefile.am
 index 4fbd605d9..bd1fa8288 100644
 --- a/src/Makefile.am
@@ -756,7 +755,7 @@ index 000000000..9cd19fec1
 +
 +#endif
 diff --git a/src/leveldb/util/env_posix.cc b/src/leveldb/util/env_posix.cc
-index dd852af35..79f50204f 100644
+index 4676bc224..5f2b6ef8d 100644
 --- a/src/leveldb/util/env_posix.cc
 +++ b/src/leveldb/util/env_posix.cc
 @@ -102,7 +102,7 @@ class PosixSequentialFile: public SequentialFile {
@@ -768,7 +767,7 @@ index dd852af35..79f50204f 100644
      *result = Slice(scratch, r);
      if (r < n) {
        if (feof(file_)) {
-@@ -225,7 +225,7 @@ class PosixWritableFile : public WritableFile {
+@@ -231,7 +231,7 @@ class PosixWritableFile : public WritableFile {
    }
  
    virtual Status Append(const Slice& data) {
@@ -777,7 +776,7 @@ index dd852af35..79f50204f 100644
      if (r != data.size()) {
        return IOError(filename_, errno);
      }
-@@ -242,7 +242,7 @@ class PosixWritableFile : public WritableFile {
+@@ -248,7 +248,7 @@ class PosixWritableFile : public WritableFile {
    }
  
    virtual Status Flush() {
@@ -786,7 +785,7 @@ index dd852af35..79f50204f 100644
        return IOError(filename_, errno);
      }
      return Status::OK();
-@@ -281,7 +281,7 @@ class PosixWritableFile : public WritableFile {
+@@ -287,7 +287,7 @@ class PosixWritableFile : public WritableFile {
      if (!s.ok()) {
        return s;
      }
@@ -795,6 +794,3 @@ index dd852af35..79f50204f 100644
          fdatasync(fileno(file_)) != 0) {
        s = Status::IOError(filename_, strerror(errno));
      }
--- 
-2.11.0
-
