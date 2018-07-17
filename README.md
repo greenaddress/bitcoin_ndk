@@ -9,5 +9,5 @@ image by issuing docker build . in the root of this repo.
 
 The docker image assumes the repo is mounted as a volume to /repo.
 
-Many thanks to https://github.com/morristech/android-ifaddrs for the ifaddrs files and to the Core and Knots team.
+Many thanks to the Core and Knots team.
 

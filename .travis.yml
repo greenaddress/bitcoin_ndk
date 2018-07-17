@@ -7,7 +7,7 @@ env:
     - DOCKERBUILDER=greenaddress/core_builder_for_android
     - DOCKERHASH=41790e5797c2b1977894281ee577551f6855a54ec5923ad2018456f2046470c7
     - REPO=https://github.com/bitcoin/bitcoin.git
-    - COMMIT=2848aa808fde462c27bc36de982d7ed74e882a7b
+    - COMMIT=3e4829af097b12f4255e9b04fa27c408850a783f
     - TOOLCHAIN=aarch64-linux-android-clang
     - TARGETHOST=aarch64-linux-android
     - BITS=64
@@ -16,10 +16,6 @@ env:
     - TOOLCHAIN=arm-linux-androideabi-clang TARGETHOST=arm-linux-androideabi BITS=32
     - TOOLCHAIN=x86_64-clang TARGETHOST=x86_64-linux-android
     - TOOLCHAIN=x86-clang TARGETHOST=i686-linux-android BITS=32
-    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=427450894c0a1fce119e9e595403f2c023ab8d25
-    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=427450894c0a1fce119e9e595403f2c023ab8d25 TOOLCHAIN=x86_64-clang TARGETHOST=x86_64-linux-android
-    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=427450894c0a1fce119e9e595403f2c023ab8d25 TOOLCHAIN=x86-clang TARGETHOST=i686-linux-android BITS=32
-    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=427450894c0a1fce119e9e595403f2c023ab8d25 TOOLCHAIN=arm-linux-androideabi-clang TARGETHOST=arm-linux-androideabi BITS=32
 
 script:
   - docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh $REPO $COMMIT $TOOLCHAIN $TARGETHOST $BITS"

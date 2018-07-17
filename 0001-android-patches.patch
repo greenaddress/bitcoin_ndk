@@ -1,18 +1,22 @@
-From 35eb8f424d410497517cb342a23587ac1fc0bb34 Mon Sep 17 00:00:00 2001
-From: Lawrence Nahum <lawrence@greenaddress.it>
-Date: Fri, 20 Jul 2018 20:38:06 +0200
-Subject: [PATCH 6/6] ndk fixes
-
----
- depends/hosts/default.mk     |  4 ++--
- depends/hosts/linux.mk       | 24 ++++++++++++------------
- depends/packages/libevent.mk |  2 +-
- 3 files changed, 15 insertions(+), 15 deletions(-)
-
-diff --git a/depends/hosts/default.mk b/depends/hosts/default.mk
+diff --git c/configure.ac i/configure.ac
+index 5851413cf..3a86eb0a8 100644
+--- c/configure.ac
++++ i/configure.ac
+@@ -726,6 +726,10 @@ fi
+ 
+ AC_CHECK_HEADERS([endian.h sys/endian.h byteswap.h stdio.h stdlib.h unistd.h strings.h sys/types.h sys/stat.h sys/select.h sys/prctl.h])
+ 
++AC_CHECK_DECLS([getifaddrs, freeifaddrs],,,
++    [#include <sys/types.h>
++    #include <ifaddrs.h>]
++)
+ AC_CHECK_DECLS([strnlen])
+ 
+ # Check for daemon(3), unrelated to --with-daemon (although used by it)
+diff --git c/depends/hosts/default.mk i/depends/hosts/default.mk
 index 144e5f88b..4d444df7d 100644
---- a/depends/hosts/default.mk
-+++ b/depends/hosts/default.mk
+--- c/depends/hosts/default.mk
++++ i/depends/hosts/default.mk
 @@ -2,8 +2,8 @@ ifneq ($(host),$(build))
  host_toolchain:=$(host)-
  endif
@@ -24,10 +28,10 @@ index 144e5f88b..4d444df7d 100644
  default_host_AR = $(host_toolchain)ar
  default_host_RANLIB = $(host_toolchain)ranlib
  default_host_STRIP = $(host_toolchain)strip
-diff --git a/depends/hosts/linux.mk b/depends/hosts/linux.mk
+diff --git c/depends/hosts/linux.mk i/depends/hosts/linux.mk
 index b13a0f1ad..838db8537 100644
---- a/depends/hosts/linux.mk
-+++ b/depends/hosts/linux.mk
+--- c/depends/hosts/linux.mk
++++ i/depends/hosts/linux.mk
 @@ -10,19 +10,19 @@ linux_debug_CXXFLAGS=$(linux_debug_CFLAGS)
  linux_debug_CPPFLAGS=-D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC
  
@@ -60,10 +64,10 @@ index b13a0f1ad..838db8537 100644
  else
  i686_linux_CC=$(default_host_CC) -m32
  i686_linux_CXX=$(default_host_CXX) -m32
-diff --git a/depends/packages/libevent.mk b/depends/packages/libevent.mk
+diff --git c/depends/packages/libevent.mk i/depends/packages/libevent.mk
 index 5f622f8e6..40daeb60f 100644
---- a/depends/packages/libevent.mk
-+++ b/depends/packages/libevent.mk
+--- c/depends/packages/libevent.mk
++++ i/depends/packages/libevent.mk
 @@ -5,7 +5,7 @@ $(package)_file_name=release-$($(package)_version).tar.gz
  $(package)_sha256_hash=316ddb401745ac5d222d7c529ef1eada12f58f6376a66c1118eee803cb70f83d
  
@@ -73,6 +77,16 @@ index 5f622f8e6..40daeb60f 100644
  endef
  
  define $(package)_set_vars
--- 
-2.11.0
-
+diff --git c/src/net.cpp i/src/net.cpp
+index 34dc4aec5..05cf75baa 100644
+--- c/src/net.cpp
++++ i/src/net.cpp
+@@ -2157,7 +2157,7 @@ void Discover()
+             }
+         }
+     }
+-#else
++#elif (HAVE_DECL_GETIFADDRS && HAVE_DECL_FREEIFADDRS)
+     // Get local host ip
+     struct ifaddrs* myaddrs;
+     if (getifaddrs(&myaddrs) == 0)
