@@ -10,7 +10,13 @@ bits=$5
 git clone $repo bitcoin
 cd bitcoin
 git checkout $commit
-patch -p1 < /repo/0001-android-patches.patch
+
+patch -p1 < /repo/0001-depends-zeromq-4.2.3.patch
+patch -p1 < /repo/0002-depends-patch-pthread_set_name_np-out-of-zeromq.patch
+patch -p1 < /repo/0003-build-add-missing-leveldb-defines.patch
+patch -p1 < /repo/0004-depends-disable-Werror-for-zmqlib-release-causes-ndk.patch
+patch -p1 < /repo/0005-build-avoid-getifaddrs-when-unavailable.patch
+patch -p1 < /repo/0006-ndk-fixes.patch
 
 
 export PATH=/opt/$toolchain/bin:${PATH}
