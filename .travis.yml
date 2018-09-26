@@ -5,7 +5,7 @@ services:
 env:
   global:
     - DOCKERBUILDER=greenaddress/core_builder_for_android
-    - DOCKERHASH=41790e5797c2b1977894281ee577551f6855a54ec5923ad2018456f2046470c7
+    - DOCKERHASH=40d2bd11a57d65dee105567a8c815b554116f67c2c89de9ec146b098a0c4c64d
     - REPO=https://github.com/bitcoin/bitcoin.git
     - COMMIT=c64128df5882e8dc1f76ae7c1e998ed57b8645fe
     - TOOLCHAIN=aarch64-linux-android-clang
