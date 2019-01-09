@@ -1,5 +1,5 @@
 #! /bin/bash
-set -e
+set -xeo pipefail
 
 repo=$1
 commit=$2
@@ -7,8 +7,8 @@ toolchain=$3
 target_host=$4
 bits=$5
 
-git clone $repo bitcoin
-cd bitcoin
+git clone --no-checkout $repo liquid
+cd liquid
 git checkout $commit
 
 patch -p1 < /repo/0001-android-patches.patch
@@ -38,8 +38,7 @@ cd ..
 make -j $num_jobs
 make install
 
-$STRIP depends/$target_host/bin/bitcoind
+$STRIP depends/$target_host/bin/liquidd
 
-repo_name=$(basename $(dirname ${repo}))
 
-tar -zcf /repo/${target_host}_${repo_name}.tar.gz -C depends/$target_host/bin bitcoind
+tar -zcf /repo/${target_host}_liquid.tar.gz -C depends/$target_host/bin liquidd

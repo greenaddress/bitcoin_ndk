@@ -12,24 +12,26 @@ REPO_KNOTS=https://github.com/bitcoinknots/bitcoin.git
 
 COMMIT_KNOTS=ab05daa871db7c5772e6477c0bdddaa6f3808afd
 
-repos="${REPO_CORE}_${COMMIT_CORE} ${REPO_KNOTS}_${COMMIT_KNOTS}"
+#repos="${REPO_CORE}_${COMMIT_CORE} ${REPO_KNOTS}_${COMMIT_KNOTS}"
+repos="https://github.com/blockstream/liquid.git_3f937d39f7c516e49f62d05c12d41b63b79ca043"
 for repo in ${repos}; do
+
   TOOLCHAIN=arm-linux-androideabi-clang
   TARGETHOST=arm-linux-androideabi
-  docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${repo/_/ } $TOOLCHAIN $TARGETHOST 32" &
+  docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${repo/_/ } $TOOLCHAIN $TARGETHOST 32 liquid" &
   TOOLCHAIN=aarch64-linux-android-clang
   TARGETHOST=aarch64-linux-android
-  docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${repo/_/ } $TOOLCHAIN $TARGETHOST 64" &
+  docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${repo/_/ } $TOOLCHAIN $TARGETHOST 64 liquid" &
   TOOLCHAIN=x86_64-clang
   TARGETHOST=x86_64-linux-android
-  docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${repo/_/ } $TOOLCHAIN $TARGETHOST 64" &
+  docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${repo/_/ } $TOOLCHAIN $TARGETHOST 64 liquid" &
   TOOLCHAIN=x86-clang
   TARGETHOST=i686-linux-android
-  docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${repo/_/ } $TOOLCHAIN $TARGETHOST 32" &
+  docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${repo/_/ } $TOOLCHAIN $TARGETHOST 32 liquid" &
 done
 
-
 wait
+
 
 echo "DONE"
 
