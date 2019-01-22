@@ -5,21 +5,20 @@ services:
 env:
   global:
     - DOCKERBUILDER=greenaddress/core_builder_for_android
-    - DOCKERHASH=8be296601b9f2dbb2b0572c96ad8815f16ce52b814b1724023e762be2ab7ef89
+    - DOCKERHASH=2a9b12f11368b117891e2dc7b57dfc2ba52831bc522508906014c3d1cde4bbfa
     - REPO=https://github.com/bitcoin/bitcoin.git
     - COMMIT=ef70f9b52b851c7997a9f1a0834714e3eebc1fd8
-    - TOOLCHAIN=aarch64-linux-android-clang
     - TARGETHOST=aarch64-linux-android
     - BITS=64
   matrix:
     - UNUSED=true
-    - TOOLCHAIN=arm-linux-androideabi-clang TARGETHOST=arm-linux-androideabi BITS=32
-    - TOOLCHAIN=x86_64-clang TARGETHOST=x86_64-linux-android
-    - TOOLCHAIN=x86-clang TARGETHOST=i686-linux-android BITS=32
+    - TARGETHOST=armv7a-linux-androideabi BITS=32
+    - TARGETHOST=x86_64-linux-android
+    - TARGETHOST=i686-linux-android BITS=32
     - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=ab05daa871db7c5772e6477c0bdddaa6f3808afd
-    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=ab05daa871db7c5772e6477c0bdddaa6f3808afd TOOLCHAIN=x86_64-clang TARGETHOST=x86_64-linux-android
-    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=ab05daa871db7c5772e6477c0bdddaa6f3808afd TOOLCHAIN=x86-clang TARGETHOST=i686-linux-android BITS=32
-    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=ab05daa871db7c5772e6477c0bdddaa6f3808afd TOOLCHAIN=arm-linux-androideabi-clang TARGETHOST=arm-linux-androideabi BITS=32
+    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=ab05daa871db7c5772e6477c0bdddaa6f3808afd TARGETHOST=x86_64-linux-android
+    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=ab05daa871db7c5772e6477c0bdddaa6f3808afd TARGETHOST=i686-linux-android BITS=32
+    - REPO=https://github.com/bitcoinknots/bitcoin.git COMMIT=ab05daa871db7c5772e6477c0bdddaa6f3808afd TARGETHOST=armv7a-linux-androideabi BITS=32
 
 script:
-  - docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh $REPO $COMMIT $TOOLCHAIN $TARGETHOST $BITS"
+  - docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh $REPO $COMMIT $TARGETHOST $BITS"

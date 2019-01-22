@@ -1,3 +1,3 @@
-FROM debian:stretch@sha256:58a80e0b6aa4d960ee2a5452b0230c406c47ed30a66555ba753c8e1710a434f5
+FROM debian:stretch@sha256:066051f6674f6a3293bbd5a190081b1ae7fcae655a3884db59ebb3a2831da623
 COPY /stretch_deps.sh /
 RUN /stretch_deps.sh
