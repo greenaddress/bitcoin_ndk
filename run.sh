@@ -5,8 +5,8 @@ DOCKERBUILDER=greenaddress/core_builder_for_android
 
 REPO_CORE=https://github.com/bitcoin/bitcoin.git
 
-DOCKERHASH=2a9b12f11368b117891e2dc7b57dfc2ba52831bc522508906014c3d1cde4bbfa
-COMMIT_CORE=ef70f9b52b851c7997a9f1a0834714e3eebc1fd8
+DOCKERHASH=6603364284e4fe27f973e6d2e42b7eacf418baabf87b89638d46453772652d2e
+COMMIT_CORE=2472733a24a9364e4c6233ccd04166a26a68cc65
 
 REPO_KNOTS=https://github.com/bitcoinknots/bitcoin.git
 

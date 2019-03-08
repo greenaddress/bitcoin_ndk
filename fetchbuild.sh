@@ -12,7 +12,7 @@ git checkout $commit
 
 patch -p1 < /repo/0001-android-patches.patch
 
-export PATH=/opt/android-ndk-r19b/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}
+export PATH=/opt/android-ndk-r19c/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}
 export AR=${target_host/v7a/}-ar
 export AS=${target_host}21-clang
 export CC=${target_host}21-clang

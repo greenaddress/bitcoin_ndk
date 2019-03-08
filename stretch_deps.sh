@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
-export NDK_VERSION=android-ndk-r19b
+export NDK_VERSION=android-ndk-r19c
 export NDK_FILENAME=${NDK_VERSION}-linux-x86_64.zip
 
-sha256_file=0fbb1645d0f1de4dde90a4ff79ca5ec4899c835e729d692f433fda501623257a
+sha256_file=4c62514ec9c2309315fd84da6d52465651cdb68605058f231f1e480fcf2692e1
 
 apt-get -yqq update &> /dev/null
 apt-get -yqq upgrade &> /dev/null
