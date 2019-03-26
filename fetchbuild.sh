@@ -22,7 +22,8 @@ export CC=${target_host}21-clang
 export CXX=${target_host}21-clang++
 export LD=${target_host/v7a/}-ld
 export STRIP=${target_host/v7a}-strip
-export LDFLAGS="-pie -static-libstdc++"
+export CFLAGS="-flto"
+export LDFLAGS="$CFLAGS -pie -static-libstdc++"
 
 num_jobs=4
 if [ -f /proc/cpuinfo ]; then
