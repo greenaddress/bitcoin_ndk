@@ -3,11 +3,14 @@ set -e
 
 repo=$1
 commit=$2
-target_host=$3
-bits=$4
+reponame=$3
+rename=$4
+configextra=$5
+target_host=$6
+bits=$7
 
-git clone $repo bitcoin
-cd bitcoin
+git clone $repo $reponame
+cd $reponame
 git checkout $commit
 
 patch -p1 < /repo/0001-android-patches.patch
@@ -31,13 +34,14 @@ make HOST=${target_host/v7a/} NO_QT=1 -j $num_jobs
 cd ..
 
 ./autogen.sh
-./configure --prefix=$PWD/depends/${target_host/v7a/} ac_cv_c_bigendian=no ac_cv_sys_file_offset_bits=$bits --disable-bench --enable-experimental-asm --disable-tests --disable-man --without-utils --without-libs --with-daemon
+./configure --prefix=$PWD/depends/${target_host/v7a/} ac_cv_c_bigendian=no ac_cv_sys_file_offset_bits=$bits --disable-bench --enable-experimental-asm --disable-tests --disable-man --without-utils --without-libs --with-daemon ${configextra}
 
 make -j $num_jobs
 make install
 
-$STRIP depends/${target_host/v7a/}/bin/bitcoind
+$STRIP depends/${target_host/v7a/}/bin/${reponame}d
 
-repo_name=$(basename $(dirname ${repo}))
 
-tar -zcf /repo/${target_host/v7a/}_${repo_name}.tar.gz -C depends/${target_host/v7a/}/bin bitcoind
+mv depends/${target_host/v7a/}/bin/${reponame}d depends/${target_host/v7a/}/bin/${rename}d
+
+tar -zcf /repo/${target_host/v7a/}_${rename}.tar.gz -C depends/${target_host/v7a/}/bin ${rename}d
