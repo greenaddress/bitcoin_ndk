@@ -19,14 +19,14 @@ TARGETHOST=armv7a-linux-androideabi
 REPO=${REPO_CORE}_${COMMIT_CORE}
 
 
-docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } bitcoin bitcoin '' $TARGETHOST 32 " &
+docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } bitcoin bitcoin '--disable-man' $TARGETHOST 32 " &
 
 TARGETHOST=aarch64-linux-android
-docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } $TARGETHOST 64" &
+docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } bitcoin bitcoin '--disable-man' $TARGETHOST 64" &
 TARGETHOST=x86_64-linux-android
-docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } $TARGETHOST 64" &
+docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } bitcoin bitcoin '--disable-man' $TARGETHOST 64" &
 TARGETHOST=i686-linux-android
-docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } $TARGETHOST 32" &
+docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } bitcoin bitcoin '--disable-man' $TARGETHOST 32" &
 
 
 REPO=${REPO_ELEMENTS}_${COMMIT_ELEMENTS}
