@@ -1,57 +1,40 @@
 #! /bin/bash
-set -e
+set -xeo pipefail
 
-DOCKERBUILDER=greenaddress/core_builder_for_android
 DOCKERHASH=6603364284e4fe27f973e6d2e42b7eacf418baabf87b89638d46453772652d2e
+DOCKERIMAGE=greenaddress/core_builder_for_android@sha256:$DOCKERHASH
+docker pull $DOCKERIMAGE
 
-REPO_CORE=https://github.com/bitcoin/bitcoin.git
-COMMIT_CORE=2472733a24a9364e4c6233ccd04166a26a68cc65
+ARCHS="armv7a-linux-androideabi=32 aarch64-linux-android=64 x86_64-linux-android=64 i686-linux-android=32"
 
-REPO_KNOTS=https://github.com/bitcoinknots/bitcoin.git
-COMMIT_KNOTS=5e1c2d13f506e58513064ecbd914e00a944ee6a0
+build_repo() {
+    for TARGETHOST in $ARCHS; do
+        docker run -v $PWD:/repo $DOCKERIMAGE /bin/bash -c "/repo/fetchbuild.sh $1 $2 $3 $4 $5 ${TARGETHOST/=/ }" &
+    done
+}
 
-REPO_ELEMENTS=https://github.com/elementsproject/elements.git
-COMMIT_ELEMENTS=551483eae50ff2ee48ed17d6b22bb1a26284b635
-
-docker pull $DOCKERBUILDER@sha256:$DOCKERHASH
-
-REPO=${REPO_CORE}_${COMMIT_CORE}
-
-TARGETHOST=armv7a-linux-androideabi
-docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } bitcoin bitcoin '--disable-man' $TARGETHOST 32 " &
-TARGETHOST=aarch64-linux-android
-docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } bitcoin bitcoin '--disable-man' $TARGETHOST 64" &
-TARGETHOST=x86_64-linux-android
-docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } bitcoin bitcoin '--disable-man' $TARGETHOST 64" &
-TARGETHOST=i686-linux-android
-docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } bitcoin bitcoin '--disable-man' $TARGETHOST 32" &
-
-
-REPO=${REPO_KNOTS}_${COMMIT_KNOTS}
-
-TARGETHOST=armv7a-linux-androideabi
-docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } bitcoin bitcoin '--disable-man' $TARGETHOST 32 " &
-TARGETHOST=aarch64-linux-android
-docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } bitcoin bitcoin '--disable-man' $TARGETHOST 64" &
-TARGETHOST=x86_64-linux-android
-docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } bitcoin bitcoin '--disable-man' $TARGETHOST 64" &
-TARGETHOST=i686-linux-android
-docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } bitcoin bitcoin '--disable-man' $TARGETHOST 32" &
-
-
-REPO=${REPO_ELEMENTS}_${COMMIT_ELEMENTS}
-
-TARGETHOST=armv7a-linux-androideabi
-docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } elements liquid '--enable-liquid' $TARGETHOST 32 " &
-TARGETHOST=aarch64-linux-android
-docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } elements liquid '--enable-liquid' $TARGETHOST 64" &
-TARGETHOST=x86_64-linux-android
-docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } elements liquid '--enable-liquid' $TARGETHOST 64" &
-TARGETHOST=i686-linux-android
-docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh ${REPO/_/ } elements liquid '--enable-liquid' $TARGETHOST 32" &
-
+build_repo https://github.com/bitcoin/bitcoin.git 2472733a24a9364e4c6233ccd04166a26a68cc65 bitcoin bitcoin --disable-man
+build_repo https://github.com/bitcoinknots/bitcoin.git 5e1c2d13f506e58513064ecbd914e00a944ee6a0 bitcoin bitcoin --disable-man
+build_repo https://github.com/elementsproject/elements.git 551483eae50ff2ee48ed17d6b22bb1a26284b635 elements liquid --enable-liquid
 
 wait
 
 echo "DONE"
 
+printpackages() {
+    echo
+    for f in $(find . -type f -name "*$1.tar.gz" | sort)
+    do
+        shahash=$(sha256sum $f | cut -d" " -f1)
+        filesize=$(ls -lat $f | cut -d" " -f5)
+        arch=${f/.\//}
+        arch=${arch/$1.tar.gz/}
+        echo \"${filesize}${arch}${shahash}\",
+    done
+    echo
+}
+
+set +x
+printpackages _bitcoin
+printpackages _bitcoinknots
+printpackages _liquid

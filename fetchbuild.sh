@@ -1,5 +1,5 @@
 #! /bin/bash
-set -e
+set -eo pipefail
 
 repo=$1
 commit=$2
@@ -35,7 +35,7 @@ make HOST=${target_host/v7a/} NO_QT=1 -j $num_jobs
 cd ..
 
 ./autogen.sh
-./configure --prefix=$PWD/depends/${target_host/v7a/} ac_cv_c_bigendian=no ac_cv_sys_file_offset_bits=$bits --disable-bench --enable-experimental-asm --disable-tests --disable-man --without-utils --without-libs --with-daemon ${configextra}
+./configure --prefix=$PWD/depends/${target_host/v7a/} ac_cv_c_bigendian=no ac_cv_sys_file_offset_bits=$bits --disable-bench --enable-experimental-asm --disable-tests --disable-man --without-utils --without-libs --with-daemon --disable-maintainer-mode --disable-glibc-back-compat ${configextra}
 
 make -j $num_jobs
 make install

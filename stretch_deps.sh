@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eo pipefail
 export NDK_VERSION=android-ndk-r19c
 export NDK_FILENAME=${NDK_VERSION}-linux-x86_64.zip
 
