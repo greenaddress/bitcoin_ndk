@@ -44,6 +44,7 @@ $STRIP depends/${target_host/v7a/}/bin/${reponame}d
 
 if [ "${reponame}" != "${rename}" ]; then
     mv depends/${target_host/v7a/}/bin/${reponame}d depends/${target_host/v7a/}/bin/${rename}d
+    tar -zcf /repo/${target_host/v7a/}_${rename}.tar.gz -C depends/${target_host/v7a/}/bin ${rename}d
+else
+    tar -zcf /repo/${target_host/v7a/}_$(basename $(dirname ${repo})).tar.gz -C depends/${target_host/v7a/}/bin ${rename}d
 fi
-
-tar -zcf /repo/${target_host/v7a/}_${rename}.tar.gz -C depends/${target_host/v7a/}/bin ${rename}d
