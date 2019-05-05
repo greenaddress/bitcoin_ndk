@@ -23,12 +23,12 @@ echo "DONE"
 
 printpackages() {
     echo
-    for f in $(find . -type f -name "*$1.tar.gz" | sort)
+    for f in $(find . -type f -name "*$1.tar.xz" | sort)
     do
         shahash=$(sha256sum $f | cut -d" " -f1)
         filesize=$(ls -lat $f | cut -d" " -f5)
         arch=${f/.\//}
-        arch=${arch/$1.tar.gz/}
+        arch=${arch/$1.tar.xz/}
         echo \"${filesize}${arch}${shahash}\",
     done
     echo
