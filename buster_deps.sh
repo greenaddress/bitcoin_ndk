@@ -1,9 +1,9 @@
 #!/bin/bash
 set -eo pipefail
-export NDK_VERSION=android-ndk-r19c
+export NDK_VERSION=android-ndk-r20
 export NDK_FILENAME=${NDK_VERSION}-linux-x86_64.zip
 
-sha256_file=4c62514ec9c2309315fd84da6d52465651cdb68605058f231f1e480fcf2692e1
+sha256_file=57435158f109162f41f2f43d5563d2164e4d5d0364783a9a6fab3ef12cb06ce0
 
 apt-get -yqq update &> /dev/null
 apt-get -yqq upgrade &> /dev/null

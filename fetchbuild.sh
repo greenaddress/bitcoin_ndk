@@ -18,7 +18,7 @@ unpackdep() {
 }
 
 
-export ANDROID_NDK_HOME=/opt/android-ndk-r19c
+export ANDROID_NDK_HOME=/opt/android-ndk-r20
 export PATH=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}
 export AR=${target_host/v7a/}-ar
 export AS=${target_host}21-clang
