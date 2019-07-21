@@ -1,7 +1,7 @@
 #! /bin/bash
 set -xeo pipefail
 
-DOCKERHASH=6603364284e4fe27f973e6d2e42b7eacf418baabf87b89638d46453772652d2e
+DOCKERHASH=258aa533635783158aade5fa2ecabb773f986a505f76ff360e0edcaef8093bb4
 DOCKERIMAGE=greenaddress/core_builder_for_android@sha256:$DOCKERHASH
 docker pull $DOCKERIMAGE
 
@@ -13,9 +13,9 @@ build_repo() {
     done
 }
 
-build_repo https://github.com/bitcoin/bitcoin.git 2472733a24a9364e4c6233ccd04166a26a68cc65 bitcoin bitcoin --disable-man
+build_repo https://github.com/bitcoin/bitcoin.git a6cba19831da9de6c5f968849d07c2a006557fe4 bitcoin bitcoin --disable-man
 build_repo https://github.com/bitcoinknots/bitcoin.git 5e1c2d13f506e58513064ecbd914e00a944ee6a0 bitcoin bitcoin --disable-man
-build_repo https://github.com/elementsproject/elements.git 551483eae50ff2ee48ed17d6b22bb1a26284b635 elements liquid --enable-liquid
+build_repo https://github.com/elementsproject/elements.git da7b8abda6f7cbe2ca1c8b7a038a969147e1c9cb elements liquid --enable-liquid
 
 wait
 
