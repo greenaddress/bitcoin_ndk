@@ -66,8 +66,8 @@ TORBUILDROOT=$PWD/tor_build_root
 mkdir $TORBUILDROOT
 
 # build libevent
-unpackdep https://github.com/greenaddress/libevent/archive/release-2.1.8.1-stable-android-patch.tar.gz e2c2bbde3e49fbe5c2c30f825a11c4f0d71b12a1b9cf5ec4a093995f30977199
-cd libevent-release-2.1.8.1-stable-android-patch
+unpackdep https://github.com/libevent/libevent/archive/release-2.1.10-stable.tar.gz 52c9db0bc5b148f146192aa517db0762b2a5b3060ccc63b2c470982ec72b9a79
+cd libevent-release-2.1.10-stable
 ./autogen.sh
 ./configure --prefix=$TORBUILDROOT/libevent --enable-static --disable-samples \
             --disable-openssl --disable-shared --disable-libevent-regress --disable-debug-mode \
