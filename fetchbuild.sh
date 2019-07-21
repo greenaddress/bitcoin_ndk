@@ -85,9 +85,9 @@ cd ..
 
 
 # build openssl
-unpackdep https://github.com/openssl/openssl/archive/OpenSSL_1_1_1b.tar.gz d6418b0e1e39ef058b630e248bbb3b04241d6fad57bdb86db0b338c2374bda80
+unpackdep https://github.com/openssl/openssl/archive/OpenSSL_1_1_1c.tar.gz 640f3a3c26aef38293b4ab4017562aa7dccf787267382d27fc003538b405bbb5
 
-cd openssl-OpenSSL_1_1_1b
+cd openssl-OpenSSL_1_1_1c
 SSLOPT="no-gost no-shared no-dso no-ssl3 no-idea no-hw no-dtls no-dtls1 \
         no-weak-ssl-ciphers no-comp -fvisibility=hidden no-err no-psk no-srp"
 
