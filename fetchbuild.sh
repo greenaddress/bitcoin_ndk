@@ -66,8 +66,8 @@ TORBUILDROOT=$PWD/tor_build_root
 mkdir $TORBUILDROOT
 
 # build libevent
-unpackdep https://github.com/libevent/libevent/archive/release-2.1.10-stable.tar.gz 52c9db0bc5b148f146192aa517db0762b2a5b3060ccc63b2c470982ec72b9a79
-cd libevent-release-2.1.10-stable
+unpackdep https://github.com/libevent/libevent/archive/release-2.1.11-stable.tar.gz 229393ab2bf0dc94694f21836846b424f3532585bac3468738b7bf752c03901e
+cd libevent-release-2.1.11-stable
 ./autogen.sh
 ./configure --prefix=$TORBUILDROOT/libevent --enable-static --disable-samples \
             --disable-openssl --disable-shared --disable-libevent-regress --disable-debug-mode \
@@ -102,8 +102,8 @@ cd ..
 
 
 # build tor
-unpackdep https://github.com/torproject/tor/archive/tor-0.4.0.5.tar.gz f0c5bcb86e0552d00eb8f477f9a2d6c1e33be99ae0f4518f28db1e84dc4e1a20
-cd tor-tor-0.4.0.5
+unpackdep https://github.com/torproject/tor/archive/tor-0.4.1.5.tar.gz 6ab3b72d368b27645b5658312d98ffa87bfcb534cac9fed743c7a89e483645c6
+cd tor-tor-0.4.1.5
 ./autogen.sh
 TOROPT="--disable-system-torrc --disable-asciidoc --enable-static-tor --enable-static-openssl \
         --with-zlib-dir=$TORBUILDROOT/zlib --disable-systemd --disable-zstd \
