@@ -110,9 +110,9 @@ TOROPT="--disable-system-torrc --disable-asciidoc --enable-static-tor --enable-s
         --enable-static-libevent --enable-static-zlib --disable-system-torrc \
         --with-openssl-dir=$TORBUILDROOT/openssl --disable-unittests \
         --with-libevent-dir=$TORBUILDROOT/libevent --disable-lzma \
-        --disable-tool-name-check --disable-module-dirauth \
-        --disable-largefile ac_cv_c_bigendian=no \
-        --disable-rust"
+        --disable-tool-name-check --disable-rust \
+        --disable-largefile ac_cv_c_bigendian=no"
+
 ./configure $TOROPT --prefix=$TORBUILDROOT/tor --host=$target_host --disable-android
 make -o configure install -j${num_jobs}
 $STRIP $TORBUILDROOT/tor/bin/tor
