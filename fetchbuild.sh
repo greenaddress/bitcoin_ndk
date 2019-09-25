@@ -102,8 +102,8 @@ cd ..
 
 
 # build tor
-unpackdep https://github.com/torproject/tor/archive/tor-0.4.1.5.tar.gz 6ab3b72d368b27645b5658312d98ffa87bfcb534cac9fed743c7a89e483645c6
-cd tor-tor-0.4.1.5
+unpackdep https://github.com/torproject/tor/archive/tor-0.4.1.6.tar.gz ee7adbbc5e30898bc35d9658bbf6a67e4242977175f7bad11c5f1ee0c1010d43
+cd tor-tor-0.4.1.6
 ./autogen.sh
 TOROPT="--disable-system-torrc --disable-asciidoc --enable-static-tor --enable-static-openssl \
         --with-zlib-dir=$TORBUILDROOT/zlib --disable-systemd --disable-zstd \
