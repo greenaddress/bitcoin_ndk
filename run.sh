@@ -1,7 +1,7 @@
 #! /bin/bash
 set -xeo pipefail
 
-DOCKERHASH=d10ad6bea2a91ae11c774063c8c3c4e02582c0d8080c7065b2685242a3f2f44d
+DOCKERHASH=06e3e394f41bd389a11ce51a2bb4ec46ff082e86d25f4f90644aad5b4faaf0f1
 DOCKERIMAGE=greenaddress/core_builder_for_android@sha256:$DOCKERHASH
 docker pull $DOCKERIMAGE
 
