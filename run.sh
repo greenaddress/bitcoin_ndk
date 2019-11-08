@@ -15,7 +15,7 @@ build_repo() {
 
 build_repo https://github.com/bitcoin/bitcoin.git 00ffe5aca134f424351b05a85da4eef9c3e4553a bitcoin bitcoin --disable-man
 build_repo https://github.com/bitcoinknots/bitcoin.git f8d8a318e8ff7fb396b3102a532c790a7430ed81 bitcoin bitcoin --disable-man
-build_repo https://github.com/elementsproject/elements.git da7b8abda6f7cbe2ca1c8b7a038a969147e1c9cb elements liquid --enable-liquid
+build_repo https://github.com/elementsproject/elements.git c53a31363290a5470b039bf3548d0cadba1926e0 elements liquid --enable-liquid
 
 wait
 
