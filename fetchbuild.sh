@@ -55,7 +55,7 @@ git checkout $commit
 patch -p1 < /repo/0001-android-patches.patch
 (cd depends && make HOST=${target_host/v7a/} NO_QT=1 -j ${num_jobs})
 ./autogen.sh
-./configure --prefix=$PWD/depends/${target_host/v7a/} ac_cv_c_bigendian=no ac_cv_sys_file_offset_bits=$bits --disable-bench --enable-experimental-asm --disable-tests --disable-man --without-utils --without-libs --with-daemon --disable-maintainer-mode --disable-glibc-back-compat ${configextra}
+./configure --prefix=$PWD/depends/${target_host/v7a/} ac_cv_c_bigendian=no ac_cv_sys_file_offset_bits=$bits --disable-bench --enable-experimental-asm --disable-tests --disable-man --without-utils --enable-util-cli --without-libs --with-daemon --disable-maintainer-mode --disable-glibc-back-compat ${configextra}
 make -j ${num_jobs}
 make install
 $STRIP depends/${target_host/v7a/}/bin/${reponame}d
@@ -123,7 +123,8 @@ cd ..
 # packaging
 if [ "${reponame}" != "${rename}" ]; then
     mv ${reponame}/depends/${target_host/v7a/}/bin/${reponame}d ${reponame}/depends/${target_host/v7a/}/bin/${rename}d
-    tar -Jcf /repo/${target_host/v7a/}_${rename}.tar.xz -C ${reponame}/depends/${target_host/v7a/}/bin ${rename}d tor
+    mv ${reponame}/depends/${target_host/v7a/}/bin/${reponame}-cli ${reponame}/depends/${target_host/v7a/}/bin/${rename}-cli
+    tar -Jcf /repo/${target_host/v7a/}_${rename}.tar.xz -C ${reponame}/depends/${target_host/v7a/}/bin ${rename}d ${rename}-cli tor
 else
-    tar -Jcf /repo/${target_host/v7a/}_$(basename $(dirname ${repo})).tar.xz -C ${reponame}/depends/${target_host/v7a/}/bin ${rename}d tor
+    tar -Jcf /repo/${target_host/v7a/}_$(basename $(dirname ${repo})).tar.xz -C ${reponame}/depends/${target_host/v7a/}/bin ${rename}d ${rename}-cli tor
 fi
