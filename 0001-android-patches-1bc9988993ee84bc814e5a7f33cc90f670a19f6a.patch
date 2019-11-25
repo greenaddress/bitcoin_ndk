@@ -1,0 +1,39 @@
+diff --git i/build-aux/m4/ax_boost_thread.m4 w/build-aux/m4/ax_boost_thread.m4
+index e9dea4353..77d0355a1 100644
+--- i/build-aux/m4/ax_boost_thread.m4
++++ w/build-aux/m4/ax_boost_thread.m4
+@@ -71,6 +71,10 @@ AC_DEFUN([AX_BOOST_THREAD],
+                  CXXFLAGS="-pthreads $CXXFLAGS"
+              elif test "x$host_os" = "xmingw32" ; then
+                  CXXFLAGS="-mthreads $CXXFLAGS"
++             elif test "x$host_os" = "xlinux-androideabi" ; then
++                 CXXFLAGS="$CXXFLAGS"
++             elif test "x$host_os" = "xlinux-android" ; then
++                 CXXFLAGS="$CXXFLAGS"
+              else
+                 CXXFLAGS="-pthread $CXXFLAGS"
+              fi
+@@ -88,6 +92,10 @@ AC_DEFUN([AX_BOOST_THREAD],
+               BOOST_CPPFLAGS="-pthreads $BOOST_CPPFLAGS"
+            elif test "x$host_os" = "xmingw32" ; then
+               BOOST_CPPFLAGS="-mthreads $BOOST_CPPFLAGS"
++           elif test "x$host_os" = "xlinux-androidaeabi" ; then
++              BOOST_CPPFLAGS="$BOOST_CPPFLAGS"
++           elif test "x$host_os" = "xlinux-android" ; then
++              BOOST_CPPFLAGS="$BOOST_CPPFLAGS"
+            else
+               BOOST_CPPFLAGS="-pthread $BOOST_CPPFLAGS"
+            fi
+@@ -148,6 +156,12 @@ AC_DEFUN([AX_BOOST_THREAD],
+                     xmingw32 )
+                         break;
+                         ;;
++                    xlinux-androideabi )
++                        break;
++                        ;;
++                    xlinux-android )
++                        break;
++                        ;;
+                     * )
+                         BOOST_THREAD_LIB="$BOOST_THREAD_LIB -lpthread"
+                         break;
