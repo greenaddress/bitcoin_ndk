@@ -1,7 +1,7 @@
 #! /bin/bash
 set -xeo pipefail
 
-DOCKERHASH=06e3e394f41bd389a11ce51a2bb4ec46ff082e86d25f4f90644aad5b4faaf0f1
+DOCKERHASH=3b00a18933ecf7909afa70c5d62b23150a5a5e07a3980f2c475f5de512e6371d
 DOCKERIMAGE=greenaddress/core_builder_for_android@sha256:$DOCKERHASH
 docker pull $DOCKERIMAGE
 
@@ -10,6 +10,7 @@ ARCHS="armv7a-linux-androideabi=32 aarch64-linux-android=64 x86_64-linux-android
 build_repo() {
     for TARGETHOST in $ARCHS; do
         docker run -v $PWD:/repo $DOCKERIMAGE /bin/bash -c "/repo/fetchbuild.sh $1 $2 $3 $4 $5 ${TARGETHOST/=/ }" &
+        docker run -v $PWD:/repo $DOCKERIMAGE /bin/bash -c "/repo/lightning-fetchbuild.sh $1 $2 $3 $4 $5 ${TARGETHOST/=/ }" &
     done
 }
 

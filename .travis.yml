@@ -4,7 +4,7 @@ services:
 env:
   global:
     - DOCKERBUILDER=greenaddress/core_builder_for_android
-    - DOCKERHASH=06e3e394f41bd389a11ce51a2bb4ec46ff082e86d25f4f90644aad5b4faaf0f1
+    - DOCKERHASH=3b00a18933ecf7909afa70c5d62b23150a5a5e07a3980f2c475f5de512e6371d
     - REPO=https://github.com/bitcoin/bitcoin.git
     - COMMIT=1bc9988993ee84bc814e5a7f33cc90f670a19f6a
     - TARGETHOST=aarch64-linux-android
@@ -28,3 +28,4 @@ env:
 
 script:
   - docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/fetchbuild.sh $REPO $COMMIT $REPONAME $RENAME $CONFIGURE $TARGETHOST $BITS"
+  - docker run -v $PWD:/repo $DOCKERBUILDER@sha256:$DOCKERHASH /bin/bash -c "/repo/lightning-fetchbuild.sh $REPO $COMMIT $REPONAME $RENAME $CONFIGURE $TARGETHOST $BITS"

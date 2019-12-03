@@ -7,7 +7,7 @@ sha256_file=8381c440fe61fcbb01e209211ac01b519cd6adf51ab1c2281d5daad6ca4c8c8c
 
 apt-get -yqq update &> /dev/null
 apt-get -yqq upgrade &> /dev/null
-apt-get -yqq install python curl build-essential libtool autotools-dev automake pkg-config bsdmainutils unzip git &> /dev/null
+apt-get -yqq install python python3-{pip,virtualenv} curl build-essential libtool autotools-dev automake pkg-config bsdmainutils unzip git gettext &> /dev/null
 
 mkdir -p /opt
 
