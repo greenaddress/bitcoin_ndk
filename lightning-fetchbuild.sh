@@ -24,15 +24,15 @@ mkdir $LNBUILDROOT
 # set options
 export ANDROID_NDK_HOME=/opt/android-ndk-r20b
 export PATH=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}
-export AR=${target_host}-ar
+export AR=${target_host/v7a/}-ar
 export AS=${target_host}26-clang
 export CC=${target_host}26-clang
 export CXX=${target_host}26-clang++
-export LD=${target_host}-ld
-export STRIP=${target_host}-strip
+export LD=${target_host/v7a/}-ld
+export STRIP=${target_host/v7a/}-strip
 export LDFLAGS="-pie"
-export MAKE_HOST=${target_host}
-export HOST=${target_host}
+export MAKE_HOST=${target_host/v7a/}
+export HOST=${target_host/v7a/}
 export QEMU_LD_PREFIX=${LNBUILDROOT}
 export CONFIGURATOR_CC="/usr/bin/gcc"
 BUILD=arm
