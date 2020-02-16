@@ -1,8 +1,8 @@
 diff --git a/Makefile b/Makefile
-index 7c19a5d6..eb72e8d6 100644
+index 7f49817de..e4e578fdb 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -189,19 +189,19 @@ BOLT_DEPS := $(BOLT_GEN)
+@@ -191,19 +191,19 @@ BOLT_DEPS := $(BOLT_GEN)
  ALL_PROGRAMS =
  
  CPPFLAGS += -DBINTOPKGLIBEXECDIR="\"$(shell sh tools/rel.sh $(bindir) $(pkglibexecdir))\""
@@ -26,7 +26,7 @@ index 7c19a5d6..eb72e8d6 100644
  endif
  
  # If we have the postgres client library we need to link against it as well
-@@ -382,7 +382,7 @@ gen_header_versions.h: tools/headerversions
+@@ -386,7 +386,7 @@ gen_header_versions.h: tools/headerversions
  	@tools/headerversions $@
  
  # Rebuild the world if this changes.
@@ -35,17 +35,17 @@ index 7c19a5d6..eb72e8d6 100644
  
  # All binaries require the external libs, ccan and system library versions.
  $(ALL_PROGRAMS) $(ALL_TEST_PROGRAMS): $(EXTERNAL_LIBS) $(CCAN_OBJS)
-@@ -433,7 +433,7 @@ clean:
- 	$(RM) $(ALL_PROGRAMS) $(ALL_PROGRAMS:=.o)
- 	$(RM) $(ALL_TEST_PROGRAMS) $(ALL_TEST_PROGRAMS:=.o)
- 	$(RM) gen_*.h ccan/tools/configurator/configurator
--	$(RM) ccan/ccan/cdump/tools/cdump-enumstr.o
-+	#$(RM) ccan/ccan/cdump/tools/cdump-enumstr.o
- 	find . -name '*gcda' -delete
- 	find . -name '*gcno' -delete
- 	find . -name '*.nccout' -delete
+@@ -418,7 +418,7 @@ update-ccan:
+ 	$(MAKE) ccan/config.h
+ 	grep -v '^CCAN version:' ccan.old/README > ccan/README
+ 	echo CCAN version: `git -C ../ccan describe` >> ccan/README
+-	$(RM) -r ccan.old
++	#$(RM) -r ccan.old
+ 	$(RM) -r ccan/ccan/hash/ ccan/ccan/tal/talloc/	# Unnecessary deps
+ 
+ # Now ALL_PROGRAMS is fully populated, we can expand it.
 diff --git a/bitcoin/Makefile b/bitcoin/Makefile
-index 33dc5f7c..90e67cde 100644
+index 33dc5f7c2..90e67cdef 100644
 --- a/bitcoin/Makefile
 +++ b/bitcoin/Makefile
 @@ -54,4 +54,4 @@ clean: bitcoin-clean

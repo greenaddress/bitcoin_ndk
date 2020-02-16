@@ -71,7 +71,7 @@ rm -rf gmp-6.1.2
 # download lightning
 git clone https://github.com/ElementsProject/lightning.git lightning
 cd lightning
-git checkout v0.7.3
+git checkout v0.8.1
 
 # set virtualenv for lightning
 python3 -m virtualenv venv
@@ -90,7 +90,7 @@ sed "s'NDKCOMPILER'${CC}'" /repo/lightning-config.h > ccan/config.h
 
 # patch makefile
 patch -p1 < /repo/lightning-makefile.patch
-patch -p1 < /repo/lightning-jsonrpc.patch
+patch -p1 < /repo/lightning-addr.patch
 patch -p1 < /repo/lightning-endian.patch
 
 # build external libraries and source
