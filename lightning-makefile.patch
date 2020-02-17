@@ -1,0 +1,56 @@
+diff --git a/Makefile b/Makefile
+index 7f49817de..e4e578fdb 100644
+--- a/Makefile
++++ b/Makefile
+@@ -191,19 +191,19 @@ BOLT_DEPS := $(BOLT_GEN)
+ ALL_PROGRAMS =
+ 
+ CPPFLAGS += -DBINTOPKGLIBEXECDIR="\"$(shell sh tools/rel.sh $(bindir) $(pkglibexecdir))\""
+-CFLAGS = $(CPPFLAGS) $(CWARNFLAGS) $(CDEBUGFLAGS) $(COPTFLAGS) -I $(CCANDIR) $(EXTERNAL_INCLUDE_FLAGS) -I . -I/usr/local/include $(FEATURES) $(COVFLAGS) $(DEV_CFLAGS) -DSHACHAIN_BITS=48 -DJSMN_PARENT_LINKS $(PIE_CFLAGS) $(COMPAT_CFLAGS) -DBUILD_ELEMENTS=1
++CFLAGS = $(CPPFLAGS) $(CWARNFLAGS) $(CDEBUGFLAGS) $(COPTFLAGS) -I $(CCANDIR) $(EXTERNAL_INCLUDE_FLAGS) -I . -I$(PREFIX)/include $(FEATURES) $(COVFLAGS) $(DEV_CFLAGS) -DSHACHAIN_BITS=48 -DJSMN_PARENT_LINKS $(PIE_CFLAGS) $(COMPAT_CFLAGS) -DBUILD_ELEMENTS=1
+ 
+ # We can get configurator to run a different compile cmd to cross-configure.
+-CONFIGURATOR_CC := $(CC)
++#CONFIGURATOR_CC := $(CC)
+ 
+ LDFLAGS += $(PIE_LDFLAGS) $(SANITIZER_FLAGS) $(COPTFLAGS)
+ ifeq ($(STATIC),1)
+ # For MacOS, Jacob Rapoport <jacob@rumblemonkey.com> changed this to:
+ #  -L/usr/local/lib -Wl,-lgmp -lsqlite3 -lz -Wl,-lm -lpthread -ldl $(COVFLAGS)
+ # But that doesn't static link.
+-LDLIBS = -L/usr/local/lib -Wl,-dn -lgmp -lsqlite3 -lz -Wl,-dy -lm -lpthread -ldl $(COVFLAGS)
++LDLIBS = -L$(PREFIX)/lib -Wl,-dn -lgmp -lsqlite3 -lz -Wl,-dy -lm -ldl $(COVFLAGS)
+ else
+-LDLIBS = -L/usr/local/lib -lm -lgmp -lsqlite3 -lz $(COVFLAGS)
++LDLIBS = -L$(PREFIX)/lib -lm -lgmp -lsqlite3 -lz $(COVFLAGS)
+ endif
+ 
+ # If we have the postgres client library we need to link against it as well
+@@ -386,7 +386,7 @@ gen_header_versions.h: tools/headerversions
+ 	@tools/headerversions $@
+ 
+ # Rebuild the world if this changes.
+-ALL_GEN_HEADERS += gen_header_versions.h
++#ALL_GEN_HEADERS += gen_header_versions.h
+ 
+ # All binaries require the external libs, ccan and system library versions.
+ $(ALL_PROGRAMS) $(ALL_TEST_PROGRAMS): $(EXTERNAL_LIBS) $(CCAN_OBJS)
+@@ -418,7 +418,7 @@ update-ccan:
+ 	$(MAKE) ccan/config.h
+ 	grep -v '^CCAN version:' ccan.old/README > ccan/README
+ 	echo CCAN version: `git -C ../ccan describe` >> ccan/README
+-	$(RM) -r ccan.old
++	#$(RM) -r ccan.old
+ 	$(RM) -r ccan/ccan/hash/ ccan/ccan/tal/talloc/	# Unnecessary deps
+ 
+ # Now ALL_PROGRAMS is fully populated, we can expand it.
+diff --git a/bitcoin/Makefile b/bitcoin/Makefile
+index 33dc5f7c2..90e67cdef 100644
+--- a/bitcoin/Makefile
++++ b/bitcoin/Makefile
+@@ -54,4 +54,4 @@ clean: bitcoin-clean
+ bitcoin-clean:
+ 	$(RM) $(BITCOIN_OBJS) $(BITCOIN_TEST_PROGRAMS) $(BITCOIN_TEST_OBJS)
+ 
+-include bitcoin/test/Makefile
++#include bitcoin/test/Makefile

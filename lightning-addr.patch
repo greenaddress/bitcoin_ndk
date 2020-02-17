@@ -1,0 +1,66 @@
+diff --git a/cli/lightning-cli.c b/cli/lightning-cli.c
+index 5812fb4e9..43ad6a6fb 100644
+--- a/cli/lightning-cli.c
++++ b/cli/lightning-cli.c
+@@ -507,10 +507,11 @@ int main(int argc, char *argv[])
+ 	fd = socket(AF_UNIX, SOCK_STREAM, 0);
+ 	if (strlen(rpc_filename) + 1 > sizeof(addr.sun_path))
+ 		errx(ERROR_USAGE, "rpc filename '%s' too long", rpc_filename);
+-	strcpy(addr.sun_path, rpc_filename);
++	addr.sun_path[0] = '\0';
++	strcpy(addr.sun_path + 1, rpc_filename);
+ 	addr.sun_family = AF_UNIX;
+ 
+-	if (connect(fd, (struct sockaddr *)&addr, sizeof(addr)) != 0)
++	if (connect(fd, (struct sockaddr *)&addr, sizeof(addr.sun_family) + strlen(rpc_filename) + 1) != 0)
+ 		err(ERROR_TALKING_TO_LIGHTNINGD,
+ 		    "Connecting to '%s'", rpc_filename);
+ 
+diff --git a/lightningd/jsonrpc.c b/lightningd/jsonrpc.c
+index 8a433cddd..c54a0b5e0 100644
+--- a/lightningd/jsonrpc.c
++++ b/lightningd/jsonrpc.c
+@@ -1121,18 +1121,19 @@ void jsonrpc_listen(struct jsonrpc *jsonrpc, struct lightningd *ld)
+ 	}
+ 	if (strlen(rpc_filename) + 1 > sizeof(addr.sun_path))
+ 		errx(1, "rpc filename '%s' too long", rpc_filename);
+-	strcpy(addr.sun_path, rpc_filename);
++	addr.sun_path[0] = '\0';
++	strcpy(addr.sun_path + 1, rpc_filename);
+ 	addr.sun_family = AF_UNIX;
+ 
+ 	/* Of course, this is racy! */
+-	if (connect(fd, (struct sockaddr *)&addr, sizeof(addr)) == 0)
++	if (connect(fd, (struct sockaddr *)&addr, sizeof(addr.sun_family) + strlen(rpc_filename) + 1) == 0)
+ 		errx(1, "rpc filename '%s' in use", rpc_filename);
+ 	unlink(rpc_filename);
+ 
+ 	/* Set the umask according to the desired file mode.  */
+ 	new_umask = ld->rpc_filemode ^ 0777;
+ 	old_umask = umask(new_umask);
+-	if (bind(fd, (struct sockaddr *)&addr, sizeof(addr)))
++	if (bind(fd, (struct sockaddr *)&addr, sizeof(addr.sun_family) + strlen(rpc_filename) + 1))
+ 		err(1, "Binding rpc socket to '%s'", rpc_filename);
+ 	umask(old_umask);
+ 
+diff --git a/plugins/libplugin.c b/plugins/libplugin.c
+index b7c5d06ee..28f964fbb 100644
+--- a/plugins/libplugin.c
++++ b/plugins/libplugin.c
+@@ -740,11 +740,13 @@ static struct command_result *handle_init(struct command *cmd,
+ 		plugin_err(p, "rpc filename '%.*s' too long",
+ 			   rpctok->end - rpctok->start,
+ 			   buf + rpctok->start);
+-	memcpy(addr.sun_path, buf + rpctok->start, rpctok->end - rpctok->start);
+-	addr.sun_path[rpctok->end - rpctok->start] = '\0';
++	memcpy(addr.sun_path + 1, buf + rpctok->start, rpctok->end - rpctok->start);
++	addr.sun_path[0] = '\0';
++	addr.sun_path[rpctok->end - rpctok->start + 1] = '\0';
+ 	addr.sun_family = AF_UNIX;
+ 
+-	if (connect(p->rpc_conn->fd, (struct sockaddr *)&addr, sizeof(addr)) != 0) {
++	const size_t len = sizeof(addr.sun_family) + (rpctok->end - rpctok->start) + 1;
++	if (connect(p->rpc_conn->fd, (struct sockaddr *)&addr, len) != 0) {
+ 		with_rpc = false;
+ 		plugin_log(p, LOG_UNUSUAL, "Could not connect to '%.*s': %s",
+ 			   rpctok->end - rpctok->start, buf + rpctok->start,
