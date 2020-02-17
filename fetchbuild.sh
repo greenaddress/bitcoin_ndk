@@ -88,6 +88,8 @@ cp /repo/lightning-gen_header_versions.h gen_header_versions.h
 sed "s'NDKCOMPILER'${CC}'" /repo/lightning-config.vars > config.vars
 sed "s'NDKCOMPILER'${CC}'" /repo/lightning-config.h > ccan/config.h
 
+# Path the external deps build
+patch -p1 < /repo/lightning-makefile-external-reverts.patch
 # patch makefile
 patch -p1 < /repo/lightning-makefile.patch
 patch -p1 < /repo/lightning-addr.patch
